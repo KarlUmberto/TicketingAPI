@@ -12,5 +12,3 @@ Our API makes ticketing fast, easy and accurate. Using our API, you can:
 
 Summary:
 Our ticketing API helps you efficiently manage events, venues, customers and tickets, increasing your sales and reducing your workload. Use our API to take your ticketing business to the next level!
-
-Very good kooder
