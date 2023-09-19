@@ -1,4 +1,7 @@
 # TicketingAPI
+
+Creators: Remus-Markus Luht, Karl Umberto Kats
+
 Problem:
 Event organizers find it difficult to manage ticketing because it involves a huge amount of data such as events, venues, customers and tickets.
 
