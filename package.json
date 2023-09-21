@@ -1,0 +1,23 @@
+{
+  "name": "ticketingapi",
+  "version": "1.0.0",
+  "description": "Creators: Remus-Markus Luht, Karl Umberto Kats",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KarlUmberto/TicketingAPI.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KarlUmberto/TicketingAPI/issues"
+  },
+  "homepage": "https://github.com/KarlUmberto/TicketingAPI#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
