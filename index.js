@@ -7,7 +7,7 @@ app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
 app.get("/events", (req, res) => {
     res.send([
-        {id: 1, name: "VOLT presents: BOU"}
+        {id: 1, name: "VOLT presents: BOU"},
         {id: 1, name: "Alchemist"}
     ])
 })
