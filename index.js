@@ -1,8 +1,9 @@
 const app = require("express")()
 const port = 8080
 const swaggerUi = require("swagger-ui-express")
-const swaggerDocument = require("./docs/swagger.json");
 const venues = require("./venues/data")
+const yamljs = require("yamljs")
+const swaggerDocument = yamljs.load("./docs/swagger.yaml");
 
 app.get("/venues", (req, res) => {
     res.send(venues.getAll())

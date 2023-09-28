@@ -1,0 +1,110 @@
+openapi: 3.0.2
+info:
+    title: Tickets-API
+    version: 1.0.0
+    description: '### This is a Swagger UI for out Tickets API'
+paths:
+    /venues:
+        get:
+            tags:
+                - venues
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            examples:
+                                List of venues:
+                                    value:
+                                        - D3
+                                        - Lauluväljak
+                    description: Returns a list of venues
+            summary: Get list of all venues
+            description: Returns a list of all venues
+    /events:
+        get:
+            tags:
+                - events
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            examples:
+                                List of events:
+                                    value:
+                                        - 'VOLT presents: Bou'
+                                        - Alchemist
+                    description: |
+                        Returns a list of events
+            summary: Get a list of all events
+            description: Returns a list of all events
+    /tickets:
+        get:
+            tags:
+                - tickets
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            examples:
+                                List of tickets:
+                                    value:
+                                        - '9.99'
+                                        - '7'
+            summary: Get list of all tickets
+            description: Returns a list of all tickets in API
+    '/venues/{id}':
+        get:
+            tags:
+                - details
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            examples:
+                                Full details of a given venue:
+                                    value:
+                                        id: 1
+                                        name: D3
+                                        location: Telliskivi 62/2
+                                        capacity: 1500
+                    description: Returns full details of a given id venue
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/error'
+                            examples:
+                                Venue /w+ was not found:
+                                    value:
+                                        error: Venue \w+ was not found in venues array
+                    description: Venue was not found in venues array
+            operationId: id
+            summary: Get full details of a venue
+            description: Returns full details of a given id venue
+components:
+    schemas:
+        error:
+            title: Root Type for error
+            description: ''
+            type: object
+            properties:
+                error:
+                    type: string
+            example:
+                error: Error message.
