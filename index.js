@@ -8,7 +8,9 @@ app.get("/venues", (req, res) => {
     res.send(venues.getAll())
 })
 
-
+app.get("/venues/:id" , (req, res) => {
+    res.send(venues.getById(req.params.id))
+})
 
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 

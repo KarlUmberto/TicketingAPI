@@ -12,3 +12,7 @@ let data = [
 exports.getAll = () => {
     return data.map(g => { return { "id": g.id, "name": g.name, "location": g.location, "capacity": g.capacity}})
 }
+
+exports.getById = (id) => {
+    return data.find((thing) => thing.id = parseInt(id))
+}
