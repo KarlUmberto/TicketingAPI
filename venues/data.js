@@ -10,9 +10,15 @@ let data = [
 ]
 
 exports.getAll = () => {
-    return data.map(g => { return { "id": g.id, "name": g.name, "location": g.location, "capacity": g.capacity}})
+    return data.map(g => { return { "id": g.id, "name": g.name, "location": g.location, "capacity": g.capacity } })
 }
 
 exports.getById = (id) => {
     return data.find((thing) => thing.id = parseInt(id))
+}
+exports.create = (newVenue) => {
+    const newId = Math.max(...data.map((thing) => thing.id) + 1)
+    newVenue.id = newId
+    data.push(newVenue)
+    return newVenue
 }
