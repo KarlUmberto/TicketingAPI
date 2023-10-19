@@ -1,5 +1,5 @@
 module.exports = (dbConnection, Sequelize) => {
-    const Venue = dbConnection.define("Venue", {
+    const Event = dbConnection.define("Event", {
         id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
@@ -9,15 +9,19 @@ module.exports = (dbConnection, Sequelize) => {
             type: Sequelize.STRING,
             allowNull: false
         },
-        location: {
+        description: {
             type: Sequelize.STRING,
             allowNull: false
         },
-        capacity: {
-            type: Sequelize.INTEGER,
+        startDate: {
+            type: Sequelize.DATE,
+            allowNull: false
+        },
+        endDate: {
+            type: Sequelize.DATE,
             allowNull: false
         }
 
     })
-    return Venue
+    return Event
 }
