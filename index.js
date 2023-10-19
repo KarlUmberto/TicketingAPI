@@ -1,20 +1,20 @@
-const app = require("express")()
-const port = 8080
-const swaggerUi = require("swagger-ui-express")
-const venues = require("./venues/data")
+require("dotenv").config()
+const express = require("express")
+const app = express()
+const port = process.env.PORT
+const swaggerui = require("swagger-ui-express")
 const yamljs = require("yamljs")
-const swaggerDocument = yamljs.load("./docs/swagger.yaml");
+const swaggerDocument = yamljs.load("./docs/swagger.yaml")
 
-app.get("/venues", (req, res) => {
-    res.send(venues.getAll())
-})
+app.use(express.json())
+app.use("/docs", swaggerui.serve, swaggerui.setup(swaggerDocument))
 
-app.get("/venues/:id" , (req, res) => {
-    res.send(venues.getById(req.params.id))
-})
-
-app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+require("./routes/eventRoutes")(app)
+require("./routes/venueRoutes")(app)
 
 app.listen(port, () => {
+    require("./db").sync()
+        .then(console.log("Synchronized"))
+        .catch((error) => console.log("Error:", error))
     console.log(`API up at: http://localhost:${port}`);
 })

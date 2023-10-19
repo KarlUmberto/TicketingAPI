@@ -1,39 +1,51 @@
-const events = require("../events/data")
+const { db } = require("../db")
+const events = db.events
 const { getBaseurl } = require("./helpers")
 
 // CREATE
-exports.createNew = (req, res) => {
+exports.createNew = async (req, res) => {
     if (!req.body.name || !req.body.price) {
         return res.status(400).send({ error: "One or all required parameters are missing" })
     }
-    const createdEvent = events.create({
-        name: req.body.name,
-        description: req.body.description,
-        startDate: req.body.startDate,
-        endDate: req.body.endDate,
+    const createdEvent = await events.create(req.body, {
+        fields: ["name", "description", "startDate", "endDate"]
     })
     res.status(201)
-        .location(`${getBaseurl(req)}/events/${createdEvent.id}`)
-        .send(createdEvent)
+        .location(`${getBaseurl(req)}/games/${createdEvent.id}`)
+        .json(createdEvent)
 }
+
 // READ
-exports.getAll = (req, res) => {
-    res.send(events.getAll())
+exports.getAll = async (req, res) => {
+    const result = await events.findAll({ attributes: ["id", "name"] })
+    res.json(result)
 }
-exports.getById = (req, res) => {
-    const foundEvent = events.getById(req.params.id)
-    if (foundEvent === undefined) {
+exports.getById = async (req, res) => {
+    const foundEvent = await events.findByPk(req.params.id)
+    if (foundEvent === null) {
         return res.status(404).send({ error: `Event not found` })
     }
-    res.send(foundEvent)
+    res.json(foundEvent)
 }
 // UPDATE
-exports.editById = (req, res) => {
-
+exports.editById = async (req, res) => {
+    const updateResult = await events.update({ ...req.body }, {
+        where: { id: req.params.id },
+        fields: ["name", "description", "startDate", "endDate"]
+    })
+    if (updateResult[0] == 0) {
+        return res.status(404).send({ error: "Event not found" })
+    }
+    res.status(204)
+        .location(`${getBaseurl(req)}/events/${req.params.id}`)
+        .send()
 }
 // DELETE
-exports.deleteById = (req, res) => {
-    if (events.delete(req.params.id) === undefined) {
+exports.deleteById = async (req, res) => {
+    const deletedAmount = await events.destroy({
+        where: { id: req.params.id }
+    })
+    if (deletedAmount === 0) {
         return res.status(404).send({ error: "Event not found" })
     }
     res.status(204).send()

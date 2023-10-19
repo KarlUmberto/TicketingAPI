@@ -1,4 +1,4 @@
-const venuesController = require("../TicketingAPI/controllers/venueController.js")
+const venuesController = require("../controllers/VenuesController.js")
 module.exports = (app) => {
     app.route("/venues")
         .get(venuesController.getAll)

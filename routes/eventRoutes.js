@@ -1,6 +1,6 @@
 const eventsController = require("../controllers/EventsController.js")
 module.exports = (app) => {
-    app.route("/gaeventsmes")
+    app.route("/events")
         .get(eventsController.getAll)
         .post(eventsController.createNew)      // Create
     app.route("/events/:id")

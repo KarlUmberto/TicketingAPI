@@ -10,9 +10,22 @@ let data = [
 ]
 
 exports.getAll = () => {
-    return data.map(g => { return { "id": g.id, "name": g.name, "location": g.location, "capacity": g.capacity}})
+    return data.map(v => { return { "id": v.id, "name": v.name } })
 }
-
 exports.getById = (id) => {
-    return data.find((thing) => thing.id = parseInt(id))
+    return data.find((thing) => thing.id == parseInt(id))
+}
+exports.create = (newVenue) => {
+    const newId = Math.max(...data.map((thing) => thing.id)) + 1
+    newVenue.id = newId
+    data.push(newVenue)
+    return newVenue
+}
+exports.delete = (id) => {
+    var toBeDeleted = this.getById(id)
+    if (toBeDeleted === undefined) {
+        return
+    }
+    data = data.filter((e) => toBeDeleted.id != e.id)
+    return toBeDeleted
 }
