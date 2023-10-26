@@ -7,7 +7,7 @@ paths:
     /venues:
         get:
             tags:
-                - venues
+                - Venues
             responses:
                 '200':
                     content:
@@ -24,10 +24,18 @@ paths:
                     description: Returns a list of venues
             summary: Get list of all venues
             description: Returns a list of all venues
+        post:
+            tags:
+                - Venues
+            responses:
+                '200':
+                    description: Creates a new venue
+            summary: Create a venue
+            description: Creates a new venue
     /events:
         get:
             tags:
-                - events
+                - Events
             responses:
                 '200':
                     content:
@@ -45,10 +53,18 @@ paths:
                         Returns a list of events
             summary: Get a list of all events
             description: Returns a list of all events
+        post:
+            tags:
+                - Events
+            responses:
+                '200':
+                    description: Creates a new event
+            summary: Create an event
+            description: Creates a new event
     /tickets:
         get:
             tags:
-                - tickets
+                - Tickets
             responses:
                 '200':
                     content:
@@ -62,12 +78,85 @@ paths:
                                     value:
                                         - '9.99'
                                         - '7'
+                    description: |
+                        Returns a list of all ticekts
             summary: Get list of all tickets
             description: Returns a list of all tickets in API
+        post:
+            tags:
+                - Tickets
+            responses:
+                '200':
+                    description: Creates a new ticket
+            summary: Create a ticket
+            description: Creates a new ticket
+    '/events/{id}':
+        get:
+            tags:
+                - Events
+            parameters:
+                -
+                    name: id
+                    in: path
+                    required: true
+            responses:
+                '200':
+                    description: Returns full details of a given event
+            summary: Get full details of events
+            description: Returns full details of a given event
+        put:
+            tags:
+                - Events
+            parameters:
+                -
+                    name: id
+                    in: path
+                    required: true
+            responses:
+                '200':
+                    description: Updates an event
+            summary: Update an event
+            description: Updates an event
+        delete:
+            tags:
+                - Events
+            parameters:
+                -
+                    name: id
+                    in: path
+                    required: true
+            responses:
+                '200':
+                    description: Deletes a given event
+            summary: Delete an event
+            description: |
+                Deletes a given event
+    /customers/:
+        get:
+            tags:
+                - Customers
+            responses:
+                '200':
+                    description: Returns a list of all customers
+            summary: Get a list of all customers
+            description: Returns a list of all customers
+        post:
+            tags:
+                - Customers
+            responses:
+                '200':
+                    description: Creates a new customer
+            summary: Create a new customer
+            description: Creates a new customer
     '/venues/{id}':
         get:
             tags:
-                - details
+                - Venues
+            parameters:
+                -
+                    name: id
+                    in: path
+                    required: true
             responses:
                 '200':
                     content:
@@ -92,11 +181,110 @@ paths:
                             examples:
                                 Venue /w+ was not found:
                                     value:
-                                        error: Venue \w+ was not found in venues array
+                                        error: Venue \w+ was not found in venue array
                     description: Venue was not found in venues array
             operationId: id
             summary: Get full details of a venue
             description: Returns full details of a given id venue
+        put:
+            tags:
+                - Venues
+            parameters:
+                -
+                    name: id
+                    in: path
+                    required: true
+            responses:
+                '200':
+                    description: Updates a venue
+            summary: Update a venue
+            description: |
+                Updates a venue
+        delete:
+            tags:
+                - Venues
+            parameters:
+                -
+                    name: id
+                    in: path
+                    required: true
+            responses:
+                '200':
+                    description: Deletes a venue
+            summary: Delete a venue
+            description: Deletes a venue
+    '/customers/{id}':
+        get:
+            tags:
+                - Customers
+            responses:
+                '200':
+                    description: Returns full details of a given customer
+            summary: Get full details of a customer
+            description: Returns full details of a given customer
+        put:
+            tags:
+                - Customers
+            responses:
+                '200':
+                    description: Updates a given customer
+            summary: Update customer
+            description: Updates a given customer
+        delete:
+            tags:
+                - Customers
+            responses:
+                '200':
+                    description: Deletes a customer
+            summary: Delete a customer
+            description: Deletes a customer
+        parameters:
+            -
+                name: id
+                in: path
+                required: true
+    '/tickets/{id}/':
+        get:
+            tags:
+                - Tickets
+            parameters:
+                -
+                    name: id
+                    in: path
+                    required: true
+            responses:
+                '200':
+                    description: |
+                        Returns full details of a given ticket
+            summary: Get full details of a ticket
+            description: |
+                Returns full details of a given ticket
+        put:
+            tags:
+                - Tickets
+            parameters:
+                -
+                    name: id
+                    in: path
+                    required: true
+            responses:
+                '200':
+                    description: Updates a given ticket
+            summary: Update a ticket
+            description: Updates a given ticket
+        delete:
+            tags:
+                - Tickets
+            parameters:
+                -
+                    name: id
+                    in: path
+                    required: true
+            responses:
+                '200':
+                    description: Deletes a given event
+            summary: Delete a ticket
+            description: Deletes a given ticket
 components:
     schemas:
         error:
