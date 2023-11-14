@@ -9,7 +9,7 @@ module.exports = (dbConnection, Sequelize) => {
         },
         price: {
             type: Sequelize.INTEGER,
-            allowNull: false
+            allowNull: false    
         },
         purchaseDate: {
             type: Sequelize.DATE,
