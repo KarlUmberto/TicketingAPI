@@ -1,18 +1,18 @@
 const { db } = require("../db")
-const players = db.players
+const venues = db.venues
 const { getBaseurl } = require("./helpers")
 
 // CREATE
 exports.createNew = async (req, res) => {
-    if (!req.body.name) {
-        return res.status(400).send({ error: "Required parameters are missing" })
+    if (!req.body.name || !req.body.location || !req.body.capacity) {
+        return res.status(400).send({ error: "One or all required parameters are missing" })
     }
     const createdVenue = await venues.create({ ...req.body }, {
-        fields: ["name", "loaction", "capacity"]
+        fields: ["name", "location", "capacity"]
     })
     res.status(201)
         .location(`${getBaseurl(req)}/venues/${createdVenue.id}`)
-        .send(createdVenue)
+        .json(createdVenue)
 }
 // READ
 exports.getAll = async (req, res) => {
@@ -30,7 +30,7 @@ exports.getById = async (req, res) => {
 exports.editById = async (req, res) => {
     const updateResult = await venues.update({ ...req.body }, {
         where: { id: req.params.id },
-        fields: ["name", "loaction", "capacity"]
+        fields: ["name", "location", "capacity"]
     })
     if (updateResult[0] == 0) {
         return res.status(404).send({ error: "Venues not found" })

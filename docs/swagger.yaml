@@ -15,20 +15,71 @@ paths:
                             schema:
                                 type: array
                                 items:
+                                    $ref: '#/components/schemas/Venue'
+                            examples:
+                                List of venues:
+                                    value:
+                                        -
+                                            id: 84
+                                            name: some text
+                                            location: some text
+                                            capacity: 57
+                                        -
+                                            id: 12
+                                            name: some text
+                                            location: some text
+                                            capacity: 66
+                    description: Returns a list of venues
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
                                     type: string
                             examples:
                                 List of venues:
                                     value:
                                         - D3
                                         - Lauluväljak
-                    description: Returns a list of venues
+                    description: Not found
+                '500':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            examples:
+                                List of venues:
+                                    value:
+                                        - D3
+                                        - Lauluväljak
+                    description: Internal server error
             summary: Get list of all venues
             description: Returns a list of all venues
         post:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Venue'
+                        examples:
+                            Venue:
+                                value:
+                                    id: 82
+                                    name: some text
+                                    location: some text
+                                    capacity: 44
+                required: true
             tags:
                 - Venues
             responses:
-                '200':
+                '201':
+                    description: Creates a new venue
+                '400':
+                    description: Creates a new venue
+                '500':
                     description: Creates a new venue
             summary: Create a venue
             description: Creates a new venue
@@ -38,6 +89,34 @@ paths:
                 - Events
             responses:
                 '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Event'
+                            examples:
+                                List of events:
+                                    value:
+                                        - 'VOLT presents: Bou'
+                                        - Alchemist
+                    description: |
+                        Returns a list of events
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            examples:
+                                List of events:
+                                    value:
+                                        - 'VOLT presents: Bou'
+                                        - Alchemist
+                    description: |
+                        Returns a list of events
+                '500':
                     content:
                         application/json:
                             schema:
@@ -54,10 +133,28 @@ paths:
             summary: Get a list of all events
             description: Returns a list of all events
         post:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Event'
+                        examples:
+                            event:
+                                value:
+                                    id: 79
+                                    name: some text
+                                    description: some text
+                                    startDate: 01.01.2022
+                                    endDate: 02.01.2022
+                required: true
             tags:
                 - Events
             responses:
-                '200':
+                '201':
+                    description: Creates a new event
+                '400':
+                    description: Creates a new event
+                '500':
                     description: Creates a new event
             summary: Create an event
             description: Creates a new event
@@ -67,6 +164,46 @@ paths:
                 - Tickets
             responses:
                 '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Ticket'
+                            examples:
+                                List of tickets:
+                                    value:
+                                        -
+                                            id: 5
+                                            name: some text
+                                            price: 51
+                                            purchaseDate: some text
+                                            EventId: 60
+                                            CustomerId: 57
+                                        -
+                                            id: 50
+                                            name: some text
+                                            price: 17
+                                            purchaseDate: some text
+                                            EventId: 86
+                                            CustomerId: 93
+                    description: |
+                        Returns a list of all ticekts
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            examples:
+                                List of tickets:
+                                    value:
+                                        - '9.99'
+                                        - '7'
+                    description: |
+                        Returns a list of all ticekts
+                '500':
                     content:
                         application/json:
                             schema:
@@ -83,10 +220,28 @@ paths:
             summary: Get list of all tickets
             description: Returns a list of all tickets in API
         post:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Ticket'
+                        examples:
+                            Ticket:
+                                value:
+                                    id: 1
+                                    price: some text
+                                    purchaseDate: some text
+                                    eventId: 3
+                                    customerId: 3
+                required: true
             tags:
                 - Tickets
             responses:
-                '200':
+                '201':
+                    description: Creates a new ticket
+                '404':
+                    description: Creates a new ticket
+                '500':
                     description: Creates a new ticket
             summary: Create a ticket
             description: Creates a new ticket
@@ -102,9 +257,26 @@ paths:
             responses:
                 '200':
                     description: Returns full details of a given event
+                '404':
+                    description: Returns full details of a given event
+                '500':
+                    description: Returns full details of a given event
             summary: Get full details of events
             description: Returns full details of a given event
         put:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Event'
+                        examples:
+                            Event:
+                                value:
+                                    name: some text
+                                    description: some text
+                                    startDate: 01.01.2022
+                                    endDate: 02.01.2022
+                required: true
             tags:
                 - Events
             parameters:
@@ -113,7 +285,11 @@ paths:
                     in: path
                     required: true
             responses:
-                '200':
+                '204':
+                    description: Updates an event
+                '404':
+                    description: Updates an event
+                '500':
                     description: Updates an event
             summary: Update an event
             description: Updates an event
@@ -126,7 +302,9 @@ paths:
                     in: path
                     required: true
             responses:
-                '200':
+                '204':
+                    description: Deletes a given event
+                '404':
                     description: Deletes a given event
             summary: Delete an event
             description: |
@@ -138,13 +316,33 @@ paths:
             responses:
                 '200':
                     description: Returns a list of all customers
+                '404':
+                    description: Returns a list of all customers
+                '500':
+                    description: Returns a list of all customers
             summary: Get a list of all customers
             description: Returns a list of all customers
         post:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Customer'
+                        examples:
+                            customers:
+                                value:
+                                    id: 61
+                                    name: some text
+                                    email: some text
+                required: true
             tags:
                 - Customers
             responses:
-                '200':
+                '201':
+                    description: Creates a new customer
+                '404':
+                    description: Creates a new customer
+                '500':
                     description: Creates a new customer
             summary: Create a new customer
             description: Creates a new customer
@@ -162,9 +360,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                type: array
-                                items:
-                                    type: string
+                                $ref: '#/components/schemas/Venue'
                             examples:
                                 Full details of a given venue:
                                     value:
@@ -183,10 +379,38 @@ paths:
                                     value:
                                         error: Venue \w+ was not found in venue array
                     description: Venue was not found in venues array
+                '500':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            examples:
+                                Full details of a given venue:
+                                    value:
+                                        id: 1
+                                        name: D3
+                                        location: Telliskivi 62/2
+                                        capacity: 1500
+                    description: Returns full details of a given id venue
             operationId: id
             summary: Get full details of a venue
             description: Returns full details of a given id venue
         put:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Venue'
+                        examples:
+                            Venue:
+                                value:
+                                    id: 65
+                                    name: some text
+                                    location: some text
+                                    capacity: 18
+                required: true
             tags:
                 - Venues
             parameters:
@@ -195,7 +419,11 @@ paths:
                     in: path
                     required: true
             responses:
-                '200':
+                '204':
+                    description: Updates a venue
+                '404':
+                    description: Updates a venue
+                '500':
                     description: Updates a venue
             summary: Update a venue
             description: |
@@ -209,7 +437,9 @@ paths:
                     in: path
                     required: true
             responses:
-                '200':
+                '204':
+                    description: Deletes a venue
+                '404':
                     description: Deletes a venue
             summary: Delete a venue
             description: Deletes a venue
@@ -220,13 +450,35 @@ paths:
             responses:
                 '200':
                     description: Returns full details of a given customer
+                '404':
+                    description: Returns full details of a given customer
+                '500':
+                    description: Returns full details of a given customer
             summary: Get full details of a customer
             description: Returns full details of a given customer
         put:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Event'
+                        examples:
+                            customer:
+                                value:
+                                    id: 81
+                                    name: some text
+                                    description: some text
+                                    startDate: 01.01.2023
+                                    endDate: 02.01.2023
+                required: true
             tags:
                 - Customers
             responses:
-                '200':
+                '204':
+                    description: Updates a given customer
+                '404':
+                    description: Updates a given customer
+                '500':
                     description: Updates a given customer
             summary: Update customer
             description: Updates a given customer
@@ -234,7 +486,9 @@ paths:
             tags:
                 - Customers
             responses:
-                '200':
+                '204':
+                    description: Deletes a customer
+                '404':
                     description: Deletes a customer
             summary: Delete a customer
             description: Deletes a customer
@@ -256,10 +510,31 @@ paths:
                 '200':
                     description: |
                         Returns full details of a given ticket
+                '404':
+                    description: |
+                        Returns full details of a given ticket
+                '500':
+                    description: |
+                        Returns full details of a given ticket
             summary: Get full details of a ticket
             description: |
                 Returns full details of a given ticket
         put:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Ticket'
+                        examples:
+                            Ticket:
+                                value:
+                                    id: 86
+                                    name: some text
+                                    price: 63
+                                    purchaseDate: some text
+                                    EventId: 51
+                                    CustomerId: 37
+                required: true
             tags:
                 - Tickets
             parameters:
@@ -268,7 +543,11 @@ paths:
                     in: path
                     required: true
             responses:
-                '200':
+                '204':
+                    description: Updates a given ticket
+                '404':
+                    description: Updates a given ticket
+                '500':
                     description: Updates a given ticket
             summary: Update a ticket
             description: Updates a given ticket
@@ -281,7 +560,9 @@ paths:
                     in: path
                     required: true
             responses:
-                '200':
+                '204':
+                    description: Deletes a given event
+                '404':
                     description: Deletes a given event
             summary: Delete a ticket
             description: Deletes a given ticket
@@ -296,3 +577,91 @@ components:
                     type: string
             example:
                 error: Error message.
+        Venue:
+            title: Root Type for Venue
+            description: ''
+            type: object
+            properties:
+                id:
+                    format: int32
+                    type: integer
+                name:
+                    type: string
+                location:
+                    type: string
+                capacity:
+                    format: int32
+                    type: integer
+            example:
+                id: 1
+                name: D3
+                location: Telliskivi 62/2
+                capacity: 1500
+        Event:
+            title: Root Type for Event
+            description: ''
+            type: object
+            properties:
+                id:
+                    format: int32
+                    type: integer
+                name:
+                    type: string
+                description:
+                    type: string
+                startDate:
+                    type: string
+                endDate:
+                    type: string
+            example:
+                id: 1
+                name: 'VOLT presents: Bou'
+                description: ''
+                startDate: '15.09'
+                endDate: '16.09'
+        Ticket:
+            title: Root Type for Event
+            description: ''
+            required: []
+            type: object
+            properties:
+                id:
+                    format: int32
+                    type: integer
+                name:
+                    type: string
+                price:
+                    format: int32
+                    type: integer
+                purchaseDate:
+                    type: string
+                EventId:
+                    format: int32
+                    type: integer
+                CustomerId:
+                    format: int32
+                    description: ''
+                    type: integer
+            example:
+                id: 54
+                name: Kalamees
+                price: 87
+                purchaseDate: 10.10.2020
+                EventId: 53
+                CustomerId: 73
+        Customer:
+            title: Root Type for Event
+            description: ''
+            type: object
+            properties:
+                id:
+                    format: int32
+                    type: integer
+                name:
+                    type: string
+                email:
+                    type: string
+            example:
+                id: 8
+                name: Kalamees
+                email: kalamees@gmail.com

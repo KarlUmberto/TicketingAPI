@@ -4,7 +4,7 @@ const { getBaseurl } = require("./helpers")
 
 // CREATE
 exports.createNew = async (req, res) => {
-    if (!req.body.name || !req.body.price) {
+    if (!req.body.name || !req.body.email) {
         return res.status(400).send({ error: "One or all required parameters are missing" })
     }
     const createdCustomer = await customers.create(req.body, {
@@ -17,7 +17,7 @@ exports.createNew = async (req, res) => {
 
 // READ
 exports.getAll = async (req, res) => {
-    const result = await customers.findAll({ attributes: ["id", "name"] })
+    const result = await customers.findAll({ attributes: ["id", "name", "email"] })
     res.json(result)
 }
 exports.getById = async (req, res) => {
