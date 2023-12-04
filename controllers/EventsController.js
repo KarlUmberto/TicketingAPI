@@ -2,6 +2,11 @@ const { db } = require("../db")
 const events = db.events
 const { getBaseurl } = require("./helpers")
 
+
+const formatDate = (dateString) => {
+    return new Date(dateString).toISOString().split('T')[0];
+};
+
 // CREATE
 exports.createNew = async (req, res) => {
     if (!req.body.name || !req.body.price) {
@@ -17,16 +22,38 @@ exports.createNew = async (req, res) => {
 
 // READ
 exports.getAll = async (req, res) => {
-    const result = await events.findAll({ attributes: ["id", "name"] })
-    res.json(result)
-}
+    const result = await events.findAll({ attributes: ["id", "name", "description", "startDate", "endDate"] });
+
+    // Format date fields in the response
+    const formattedResult = result.map((event) => ({
+        id: event.id,
+        name: event.name,
+        description: event.description,
+        startDate: formatDate(event.startDate),
+        endDate: formatDate(event.endDate),
+    }));
+
+    res.json(formattedResult);
+};
+
 exports.getById = async (req, res) => {
-    const foundEvent = await events.findByPk(req.params.id)
+    const foundEvent = await events.findByPk(req.params.id);
+
     if (foundEvent === null) {
-        return res.status(404).send({ error: `Event not found` })
+        return res.status(404).send({ error: `Event not found` });
     }
-    res.json(foundEvent)
-}
+
+    // Format date fields in the response
+    const formattedEvent = {
+        id: foundEvent.id,
+        name: foundEvent.name,
+        description: foundEvent.description,
+        startDate: formatDate(foundEvent.startDate),
+        endDate: formatDate(foundEvent.endDate),
+    };
+
+    res.json(formattedEvent);
+};
 // UPDATE
 exports.editById = async (req, res) => {
     const updateResult = await events.update({ ...req.body }, {

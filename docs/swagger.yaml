@@ -315,6 +315,16 @@ paths:
                 - Customers
             responses:
                 '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Customer'
+                            examples:
+                                Customer:
+                                    value:
+                                        id: 86
+                                        name: Kala
+                                        email: Kala@gmail.com
                     description: Returns a list of all customers
                 '404':
                     description: Returns a list of all customers
@@ -332,8 +342,8 @@ paths:
                             customers:
                                 value:
                                     id: 61
-                                    name: some text
-                                    email: some text
+                                    name: Kala
+                                    email: Kala@gmail.com
                 required: true
             tags:
                 - Customers
