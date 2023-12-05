@@ -11,7 +11,7 @@ const routes = [
     { path: "/venues", component: VenuesView },
     { path: "/events", component: EventsView },
     { path: "/customers", component: CustomersView },
-    { path: "/tickets", component: TicketsView }
+    { path: "/tickets", component: TicketsView },
 ]
 
 const router = createRouter({

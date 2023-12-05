@@ -1,6 +1,4 @@
-const Customer = require("./Customer")
-
-module.exports = (dbConnection, Sequelize) => {
+module.exports = (dbConnection, Sequelize, Event, Customer) => {
     const Ticket = dbConnection.define("Ticket", {
         id: {
             type: Sequelize.INTEGER,
@@ -31,7 +29,11 @@ module.exports = (dbConnection, Sequelize) => {
                 key: "id"
             }
         },
+    });
 
-    })
-    return Ticket
-}
+    // Associate Ticket with Event and Customer
+    Ticket.belongsTo(Event);
+    Ticket.belongsTo(Customer);
+
+    return Ticket;
+};

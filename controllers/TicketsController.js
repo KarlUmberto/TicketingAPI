@@ -1,53 +1,95 @@
-const { db } = require("../db")
-const tickets = db.tickets
-const { getBaseurl } = require("./helpers")
+// TicketsController.js
+const { db } = require("../db");
+const tickets = db.tickets;
+const { getBaseurl } = require("./helpers");
 
 // CREATE
 exports.createNew = async (req, res) => {
-    if (!req.body.name || !req.body.price) {
-        return res.status(400).send({ error: "One or all required parameters are missing" })
+    if (!req.body.price || !req.body.purchaseDate || !req.body.EventId || !req.body.CustomerId) {
+        return res.status(400).send({ error: "One or all required parameters are missing" });
     }
-    const createdTicket = await tickets.create(req.body, {
-        fields: ["price", "purchaseDate"]
-    })
-    res.status(201)
-        .location(`${getBaseurl(req)}/tickets/${createdTicket.id}`)
-        .json(createdGame)
-}
+
+    try {
+        const createdTicket = await tickets.create({
+            price: req.body.price,
+            purchaseDate: req.body.purchaseDate,
+            EventId: req.body.EventId,
+            CustomerId: req.body.CustomerId
+        });
+
+        res.status(201)
+            .location(`${getBaseurl(req)}/tickets/${createdTicket.id}`)
+            .json(createdTicket);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ error: "Internal Server Error" });
+    }
+};
+
 // READ
 exports.getAll = async (req, res) => {
-    const result = await tickets.findAll({
-        include: [db.events, db.customers]
-    })
-    res.json(result)
-}
-exports.getById = async (req, res) => {
-    const foundTicket = await tickets.findByPk(req.params.id)
-    if (foundTicket === null) {
-        return res.status(404).send({ error: `Ticket not found` })
+    try {
+        const result = await tickets.findAll({
+            include: [db.events, db.customers]
+        });
+
+        res.json(result);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ error: "Internal Server Error" });
     }
-    res.json(foundTicket)
-}
+};
+
+exports.getById = async (req, res) => {
+    try {
+        const foundTicket = await tickets.findByPk(req.params.id);
+
+        if (!foundTicket) {
+            return res.status(404).send({ error: "Ticket not found" });
+        }
+
+        res.json(foundTicket);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ error: "Internal Server Error" });
+    }
+};
+
 // UPDATE
 exports.editById = async (req, res) => {
-    const updateResult = await tickets.update({ ...req.body }, {
-        where: { id: req.params.id },
-        fields: ["price", "purchaseDate"]
-    })
-    if (updateResult[0] == 0) {
-        return res.status(404).send({ error: "Tickets not found" })
+    try {
+        const updateResult = await tickets.update({ ...req.body }, {
+            where: { id: req.params.id },
+            fields: ["price", "purchaseDate"]
+        });
+
+        if (updateResult[0] === 0) {
+            return res.status(404).send({ error: "Ticket not found" });
+        }
+
+        res.status(204)
+            .location(`${getBaseurl(req)}/tickets/${req.params.id}`)
+            .send();
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ error: "Internal Server Error" });
     }
-    res.status(204)
-        .location(`${getBaseurl(req)}/tickets/${req.params.id}`)
-        .send()
-}
+};
+
 // DELETE
 exports.deleteById = async (req, res) => {
-    const deletedAmount = await tickets.destroy({
-        where: { id: req.params.id }
-    })
-    if (deletedAmount === 0) {
-        return res.status(404).send({ error: "Ticket not found" })
+    try {
+        const deletedAmount = await tickets.destroy({
+            where: { id: req.params.id }
+        });
+
+        if (deletedAmount === 0) {
+            return res.status(404).send({ error: "Ticket not found" });
+        }
+
+        res.status(204).send();
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ error: "Internal Server Error" });
     }
-    res.status(204).send()
-}
+};
