@@ -1,4 +1,4 @@
-module.exports = (dbConnection, Sequelize, Event, Customer) => {
+module.exports = (dbConnection, Sequelize, Event) => {
     const Ticket = dbConnection.define("Ticket", {
         id: {
             type: Sequelize.INTEGER,
@@ -21,19 +21,7 @@ module.exports = (dbConnection, Sequelize, Event, Customer) => {
                 key: "id"
             }
         },
-        CustomerId: {
-            type: Sequelize.INTEGER,
-            allowNull: false,
-            references: {
-                model: Customer,
-                key: "id"
-            }
-        },
     });
-
-    // Associate Ticket with Event and Customer
-    Ticket.belongsTo(Event);
-    Ticket.belongsTo(Customer);
 
     return Ticket;
 };

@@ -30,19 +30,6 @@ paths:
                                             location: some text
                                             capacity: 66
                     description: Returns a list of venues
-                '404':
-                    content:
-                        application/json:
-                            schema:
-                                type: array
-                                items:
-                                    type: string
-                            examples:
-                                List of venues:
-                                    value:
-                                        - D3
-                                        - Lauluväljak
-                    description: Not found
                 '500':
                     content:
                         application/json:
@@ -76,11 +63,22 @@ paths:
                 - Venues
             responses:
                 '201':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Venue'
+                            examples:
+                                Venue:
+                                    value:
+                                        id: 44
+                                        name: some text
+                                        location: some text
+                                        capacity: 10
                     description: Creates a new venue
                 '400':
-                    description: Creates a new venue
+                    description: Bad request
                 '500':
-                    description: Creates a new venue
+                    description: Server error
             summary: Create a venue
             description: Creates a new venue
     /events:
@@ -102,20 +100,6 @@ paths:
                                         - Alchemist
                     description: |
                         Returns a list of events
-                '404':
-                    content:
-                        application/json:
-                            schema:
-                                type: array
-                                items:
-                                    type: string
-                            examples:
-                                List of events:
-                                    value:
-                                        - 'VOLT presents: Bou'
-                                        - Alchemist
-                    description: |
-                        Returns a list of events
                 '500':
                     content:
                         application/json:
@@ -128,8 +112,7 @@ paths:
                                     value:
                                         - 'VOLT presents: Bou'
                                         - Alchemist
-                    description: |
-                        Returns a list of events
+                    description: Server error
             summary: Get a list of all events
             description: Returns a list of all events
         post:
@@ -151,11 +134,23 @@ paths:
                 - Events
             responses:
                 '201':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Event'
+                            examples:
+                                Event:
+                                    value:
+                                        id: 15
+                                        name: some text
+                                        description: some text
+                                        startDate: some text
+                                        endDate: some text
                     description: Creates a new event
                 '400':
-                    description: Creates a new event
+                    description: Bad request
                 '500':
-                    description: Creates a new event
+                    description: Server error
             summary: Create an event
             description: Creates a new event
     /tickets:
@@ -189,20 +184,6 @@ paths:
                                             CustomerId: 93
                     description: |
                         Returns a list of all ticekts
-                '404':
-                    content:
-                        application/json:
-                            schema:
-                                type: array
-                                items:
-                                    type: string
-                            examples:
-                                List of tickets:
-                                    value:
-                                        - '9.99'
-                                        - '7'
-                    description: |
-                        Returns a list of all ticekts
                 '500':
                     content:
                         application/json:
@@ -215,8 +196,7 @@ paths:
                                     value:
                                         - '9.99'
                                         - '7'
-                    description: |
-                        Returns a list of all ticekts
+                    description: Server error
             summary: Get list of all tickets
             description: Returns a list of all tickets in API
         post:
@@ -240,9 +220,9 @@ paths:
                 '201':
                     description: Creates a new ticket
                 '404':
-                    description: Creates a new ticket
+                    description: Not found
                 '500':
-                    description: Creates a new ticket
+                    description: Server error
             summary: Create a ticket
             description: Creates a new ticket
     '/events/{id}':
@@ -256,11 +236,23 @@ paths:
                     required: true
             responses:
                 '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Event'
+                            examples:
+                                Event:
+                                    value:
+                                        id: 35
+                                        name: some text
+                                        description: some text
+                                        startDate: some text
+                                        endDate: some text
                     description: Returns full details of a given event
                 '404':
-                    description: Returns full details of a given event
+                    description: Not found
                 '500':
-                    description: Returns full details of a given event
+                    description: Server error
             summary: Get full details of events
             description: Returns full details of a given event
         put:
@@ -286,11 +278,23 @@ paths:
                     required: true
             responses:
                 '204':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Event'
+                            examples:
+                                Event:
+                                    value:
+                                        id: 3
+                                        name: some text
+                                        description: some text
+                                        startDate: some text
+                                        endDate: some text
                     description: Updates an event
                 '404':
-                    description: Updates an event
+                    description: Not found
                 '500':
-                    description: Updates an event
+                    description: Server error
             summary: Update an event
             description: Updates an event
         delete:
@@ -305,7 +309,7 @@ paths:
                 '204':
                     description: Deletes a given event
                 '404':
-                    description: Deletes a given event
+                    description: Not found
             summary: Delete an event
             description: |
                 Deletes a given event
@@ -318,18 +322,18 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Customer'
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Customer'
                             examples:
                                 Customer:
                                     value:
-                                        id: 86
-                                        name: Kala
-                                        email: Kala@gmail.com
-                    description: Returns a list of all customers
-                '404':
+                                        id: 20
+                                        name: some text
+                                        email: some text
                     description: Returns a list of all customers
                 '500':
-                    description: Returns a list of all customers
+                    description: Server error
             summary: Get a list of all customers
             description: Returns a list of all customers
         post:
@@ -351,9 +355,9 @@ paths:
                 '201':
                     description: Creates a new customer
                 '404':
-                    description: Creates a new customer
+                    description: Not found
                 '500':
-                    description: Creates a new customer
+                    description: Server error
             summary: Create a new customer
             description: Creates a new customer
     '/venues/{id}':
@@ -403,7 +407,7 @@ paths:
                                         name: D3
                                         location: Telliskivi 62/2
                                         capacity: 1500
-                    description: Returns full details of a given id venue
+                    description: Server error
             operationId: id
             summary: Get full details of a venue
             description: Returns full details of a given id venue
@@ -429,12 +433,12 @@ paths:
                     in: path
                     required: true
             responses:
-                '204':
-                    description: Updates a venue
+                '202':
+                    description: Venue updated succesfully
                 '404':
-                    description: Updates a venue
+                    description: Not found
                 '500':
-                    description: Updates a venue
+                    description: Server error
             summary: Update a venue
             description: |
                 Updates a venue
@@ -450,7 +454,7 @@ paths:
                 '204':
                     description: Deletes a venue
                 '404':
-                    description: Deletes a venue
+                    description: Not found
             summary: Delete a venue
             description: Deletes a venue
     '/customers/{id}':
@@ -459,11 +463,21 @@ paths:
                 - Customers
             responses:
                 '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Customer'
+                            examples:
+                                Customer:
+                                    value:
+                                        id: 8
+                                        name: some text
+                                        email: some text
                     description: Returns full details of a given customer
                 '404':
-                    description: Returns full details of a given customer
+                    description: Not found
                 '500':
-                    description: Returns full details of a given customer
+                    description: Server error
             summary: Get full details of a customer
             description: Returns full details of a given customer
         put:
@@ -485,11 +499,21 @@ paths:
                 - Customers
             responses:
                 '204':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Customer'
+                            examples:
+                                Customer:
+                                    value:
+                                        id: 7
+                                        name: some text
+                                        email: some text
                     description: Updates a given customer
                 '404':
-                    description: Updates a given customer
+                    description: Not found
                 '500':
-                    description: Updates a given customer
+                    description: Server error
             summary: Update customer
             description: Updates a given customer
         delete:
@@ -499,7 +523,7 @@ paths:
                 '204':
                     description: Deletes a customer
                 '404':
-                    description: Deletes a customer
+                    description: Not found
             summary: Delete a customer
             description: Deletes a customer
         parameters:
@@ -518,14 +542,25 @@ paths:
                     required: true
             responses:
                 '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Ticket'
+                            examples:
+                                Ticket:
+                                    value:
+                                        id: 59
+                                        name: some text
+                                        price: 29
+                                        purchaseDate: some text
+                                        EventId: 26
+                                        CustomerId: 71
                     description: |
                         Returns full details of a given ticket
                 '404':
-                    description: |
-                        Returns full details of a given ticket
+                    description: Not found
                 '500':
-                    description: |
-                        Returns full details of a given ticket
+                    description: Server error
             summary: Get full details of a ticket
             description: |
                 Returns full details of a given ticket
@@ -554,11 +589,24 @@ paths:
                     required: true
             responses:
                 '204':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Ticket'
+                            examples:
+                                Ticket:
+                                    value:
+                                        id: 56
+                                        name: some text
+                                        price: 73
+                                        purchaseDate: some text
+                                        EventId: 84
+                                        CustomerId: 40
                     description: Updates a given ticket
                 '404':
-                    description: Updates a given ticket
+                    description: Not found
                 '500':
-                    description: Updates a given ticket
+                    description: Server error
             summary: Update a ticket
             description: Updates a given ticket
         delete:
@@ -648,17 +696,14 @@ components:
                 EventId:
                     format: int32
                     type: integer
-                CustomerId:
-                    format: int32
-                    description: ''
-                    type: integer
-            example:
-                id: 54
-                name: Kalamees
-                price: 87
-                purchaseDate: 10.10.2020
-                EventId: 53
-                CustomerId: 73
+            example: |-
+                {
+                    "id": 54,
+                    "name": "Kalamees",
+                    "price": 87,
+                    "purchaseDate": "10.10.2020",
+                    "EventId": 53,
+                }
         Customer:
             title: Root Type for Event
             description: ''

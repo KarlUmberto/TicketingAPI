@@ -18,7 +18,7 @@ export default {
     data() {
         return {
             update: 0,
-            ticketInModal: { id: "", name: "", price: "", purchaseDate: "", EventId: "", CustomerId: "" }
+            ticketInModal: { id: "", name: "", price: "", purchaseDate: "", EventId: "" }
         };
     },
     methods: {

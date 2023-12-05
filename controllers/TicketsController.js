@@ -5,7 +5,7 @@ const { getBaseurl } = require("./helpers");
 
 // CREATE
 exports.createNew = async (req, res) => {
-    if (!req.body.price || !req.body.purchaseDate || !req.body.EventId || !req.body.CustomerId) {
+    if (!req.body.price || !req.body.purchaseDate || !req.body.EventId) {
         return res.status(400).send({ error: "One or all required parameters are missing" });
     }
 
@@ -14,7 +14,6 @@ exports.createNew = async (req, res) => {
             price: req.body.price,
             purchaseDate: req.body.purchaseDate,
             EventId: req.body.EventId,
-            CustomerId: req.body.CustomerId
         });
 
         res.status(201)
@@ -30,10 +29,18 @@ exports.createNew = async (req, res) => {
 exports.getAll = async (req, res) => {
     try {
         const result = await tickets.findAll({
-            include: [db.events, db.customers]
+            include: [db.events]
         });
 
-        res.json(result);
+        // Format purchaseDate
+        const formattedTickets = result.map(ticket => {
+            return {
+                ...ticket.dataValues,
+                purchaseDate: ticket.purchaseDate.toLocaleDateString()
+            };
+        });
+
+        res.json(formattedTickets);
     } catch (error) {
         console.error(error);
         res.status(500).send({ error: "Internal Server Error" });

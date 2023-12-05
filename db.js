@@ -20,14 +20,11 @@ db.connection = sequelize
 db.venues = require("./models/Venue")(sequelize, Sequelize)
 db.events = require("./models/Event")(sequelize, Sequelize)
 db.customers = require("./models/Customer")(sequelize, Sequelize)
-db.tickets = require("./models/Ticket")(sequelize, Sequelize, db.events, db.customers)
+db.tickets = require("./models/Ticket")(sequelize, Sequelize, db.events)
 
-db.events.belongsToMany(db.customers, { through: db.tickets })
-db.customers.belongsToMany(db.events, { through: db.tickets })
 db.events.hasMany(db.tickets)
-db.customers.hasMany(db.tickets)
 db.tickets.belongsTo(db.events)
-db.tickets.belongsTo(db.events)
+
 
 
 sync = async () => {

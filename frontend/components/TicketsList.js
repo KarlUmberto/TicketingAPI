@@ -8,17 +8,13 @@ export default {
                     <th>Name</th>
                     <th>Price</th>
                     <th>Purchase Date</th>
-                    <th>Event ID</th>
-                    <th>Customer ID</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="ticket in tickets" :key="ticket.id">
-                    <td @click="getTicket(ticket.id)">{{ ticket.id }}</td>
+                    <td @click="getTicket(ticket.id)">{{ ticket.Event.name }}</td>
                     <td>{{ ticket.price }}</td>
                     <td>{{ ticket.purchaseDate }}</td>
-                    <td>{{ ticket.EventId }}</td>
-                    <td>{{ ticket.CustomerId }}</td>
                 </tr>
             </tbody>
         </table>
@@ -31,7 +27,7 @@ export default {
     },
     async created() {
         try {
-            this.tickets = await (await fetch("http://localhost:8080/tickets")).json();
+            this.tickets = await (await fetch("http://localhost:8080/tickets", { method: 'GET', headers: {'Accept': 'application/json', 'Content-Type': 'application/json'} })).json();
         } catch (error) {
             console.error(error);
         }

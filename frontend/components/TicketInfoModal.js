@@ -31,11 +31,6 @@ export default {
                                 <td v-if="isEditing"><input v-model="modifiedTicket.EventId" type="number"></td>
                                 <td v-else>{{ ticketInModal.EventId }}</td>
                             </tr>
-                            <tr>
-                                <th>Customer ID</th>
-                                <td v-if="isEditing"><input v-model="modifiedTicket.CustomerId" type="number"></td>
-                                <td v-else>{{ ticketInModal.CustomerId }}</td>
-                            </tr>
                         </table>
                         <form v-else @submit.prevent="createNewTicket">
                             <div class="mb-3">
@@ -49,10 +44,6 @@ export default {
                             <div class="mb-3">
                                 <label for="EventId" class="form-label">Event ID</label>
                                 <input v-model="newTicket.EventId" type="number" class="form-control" id="EventId" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="CustomerId" class="form-label">Customer ID</label>
-                                <input v-model="newTicket.CustomerId" type="number" class="form-control" id="CustomerId" required>
                             </div>
                             <button type="submit" class="btn btn-primary">Create</button>
                         </form>
@@ -99,8 +90,7 @@ export default {
             newTicket: {
                 price: "",
                 purchaseDate: "",
-                EventId: "",
-                CustomerId: ""
+                EventId: ""
             }
         };
     },
@@ -141,7 +131,7 @@ export default {
         deleteTicket() {
             try {
                 // Make a DELETE request to the server
-                fetch(`http://localhost:8080/customers/${this.ticketInModal.id}`, {
+                fetch(`http://localhost:8080/tickets/${this.ticketInModal.id}`, {
                     method: 'DELETE',
                     headers: {
                         'Accept': 'application/json',
@@ -153,9 +143,9 @@ export default {
                         throw new Error('Failed to delete ticket');
                     }
                     console.log("DELETE confirmed");
-                    this.$emit("ticketUpdated", {}); // Signal that the customer is deleted
-                    let customerInfoModal = new bootstrap.Modal(document.getElementById("ticketInfoModal"));
-                    customerInfoModal.hide();
+                    this.$emit("ticketUpdated", {}); // Signal that the ticket is deleted
+                    let ticketInfoModal = new bootstrap.Modal(document.getElementById("ticketInfoModal"));
+                    ticketInfoModal.hide();
                 })
                 .catch(error => {
                     console.error(error);
@@ -199,8 +189,7 @@ export default {
                 name: "",
                 price: "",
                 purchaseDate: "",
-                EventId: "",
-                CustomerId: ""
+                EventId: ""
             };
         }
     }
