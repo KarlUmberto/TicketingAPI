@@ -9,14 +9,14 @@ const formatDate = (dateString) => {
 
 // CREATE
 exports.createNew = async (req, res) => {
-    if (!req.body.name || !req.body.price) {
+    if (!req.body.name || !req.body.description || !req.body.startDate || !req.body.endDate) {
         return res.status(400).send({ error: "One or all required parameters are missing" })
     }
     const createdEvent = await events.create(req.body, {
         fields: ["name", "description", "startDate", "endDate"]
     })
     res.status(201)
-        .location(`${getBaseurl(req)}/games/${createdEvent.id}`)
+        .location(`${getBaseurl(req)}/events/${createdEvent.id}`)
         .json(createdEvent)
 }
 
