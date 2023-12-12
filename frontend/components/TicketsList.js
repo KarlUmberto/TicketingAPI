@@ -12,7 +12,7 @@ export default {
             <td>{{ ticket.purchaseDate }}</td>
             <td>
             <span v-if="ticket.Event">{{ ticket.Event.name }}</span>
-            <span v-else>No Genre</span>
+            <span v-else>No Event</span>
         </td>
         </tr>
     </table>

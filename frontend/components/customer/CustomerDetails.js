@@ -14,6 +14,12 @@ export default {
         <th>Email</th>
         <td>{{customerInModal.email}}</td>
     </tr>
+    <tr>
+        <th>Ticket</th>
+        <td>
+            {{ticketPurchaseDate}}
+        </td>
+    </tr>
 </table>`,
-    props: ["customerInModal"]
+    props: ["customerInModal", "ticketPurchaseDate"]
 }

@@ -16,7 +16,7 @@ export default {
             <td>{{ event.endDate }}</td>
             <td>
             <span v-if="event.Venue">{{ event.Venue.name }}</span>
-            <span v-else>No Genre</span>
+            <span v-else>No Venue</span>
         </td>
         </tr>
     </table>

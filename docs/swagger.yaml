@@ -20,15 +20,15 @@ paths:
                                 List of venues:
                                     value:
                                         -
-                                            id: 84
+                                            id: 18
                                             name: some text
                                             location: some text
-                                            capacity: 57
+                                            capacity: 58
                                         -
-                                            id: 12
+                                            id: 2
                                             name: some text
                                             location: some text
-                                            capacity: 66
+                                            capacity: 10
                     description: Returns a list of venues
                 '500':
                     content:
@@ -54,10 +54,10 @@ paths:
                         examples:
                             Venue:
                                 value:
-                                    id: 82
+                                    id: 39
                                     name: some text
                                     location: some text
-                                    capacity: 44
+                                    capacity: 54
                 required: true
             tags:
                 - Venues
@@ -70,10 +70,10 @@ paths:
                             examples:
                                 Venue:
                                     value:
-                                        id: 44
+                                        id: 58
                                         name: some text
                                         location: some text
-                                        capacity: 10
+                                        capacity: 86
                     description: Creates a new venue
                 '400':
                     description: Bad request
@@ -96,8 +96,20 @@ paths:
                             examples:
                                 List of events:
                                     value:
-                                        - 'VOLT presents: Bou'
-                                        - Alchemist
+                                        -
+                                            id: 31
+                                            name: some text
+                                            description: some text
+                                            startDate: some text
+                                            endDate: some text
+                                            VenueId: 55
+                                        -
+                                            id: 84
+                                            name: some text
+                                            description: some text
+                                            startDate: some text
+                                            endDate: some text
+                                            VenueId: 22
                     description: |
                         Returns a list of events
                 '500':
@@ -124,11 +136,12 @@ paths:
                         examples:
                             event:
                                 value:
-                                    id: 79
+                                    id: 0
                                     name: some text
                                     description: some text
-                                    startDate: 01.01.2022
-                                    endDate: 02.01.2022
+                                    startDate: some text
+                                    endDate: some text
+                                    VenueId: 12
                 required: true
             tags:
                 - Events
@@ -141,11 +154,12 @@ paths:
                             examples:
                                 Event:
                                     value:
-                                        id: 15
+                                        id: 25
                                         name: some text
                                         description: some text
                                         startDate: some text
                                         endDate: some text
+                                        VenueId: 73
                     description: Creates a new event
                 '400':
                     description: Bad request
@@ -169,19 +183,17 @@ paths:
                                 List of tickets:
                                     value:
                                         -
-                                            id: 5
+                                            id: 8
                                             name: some text
-                                            price: 51
+                                            price: 9
                                             purchaseDate: some text
-                                            EventId: 60
-                                            CustomerId: 57
+                                            EventId: 36
                                         -
-                                            id: 50
+                                            id: 23
                                             name: some text
-                                            price: 17
+                                            price: 74
                                             purchaseDate: some text
-                                            EventId: 86
-                                            CustomerId: 93
+                                            EventId: 34
                     description: |
                         Returns a list of all ticekts
                 '500':
@@ -208,16 +220,28 @@ paths:
                         examples:
                             Ticket:
                                 value:
-                                    id: 1
-                                    price: some text
+                                    id: 74
+                                    name: some text
+                                    price: 22
                                     purchaseDate: some text
-                                    eventId: 3
-                                    customerId: 3
+                                    EventId: 33
                 required: true
             tags:
                 - Tickets
             responses:
                 '201':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Ticket'
+                            examples:
+                                Ticket:
+                                    value:
+                                        id: 5
+                                        name: some text
+                                        price: 55
+                                        purchaseDate: some text
+                                        EventId: 68
                     description: Creates a new ticket
                 '404':
                     description: Not found
@@ -243,11 +267,12 @@ paths:
                             examples:
                                 Event:
                                     value:
-                                        id: 35
+                                        id: 82
                                         name: some text
                                         description: some text
                                         startDate: some text
                                         endDate: some text
+                                        VenueId: 33
                     description: Returns full details of a given event
                 '404':
                     description: Not found
@@ -264,10 +289,12 @@ paths:
                         examples:
                             Event:
                                 value:
+                                    id: 44
                                     name: some text
                                     description: some text
-                                    startDate: 01.01.2022
-                                    endDate: 02.01.2022
+                                    startDate: some text
+                                    endDate: some text
+                                    VenueId: 35
                 required: true
             tags:
                 - Events
@@ -285,11 +312,12 @@ paths:
                             examples:
                                 Event:
                                     value:
-                                        id: 3
+                                        id: 41
                                         name: some text
                                         description: some text
                                         startDate: some text
                                         endDate: some text
+                                        VenueId: 23
                     description: Updates an event
                 '404':
                     description: Not found
@@ -328,9 +356,16 @@ paths:
                             examples:
                                 Customer:
                                     value:
-                                        id: 20
-                                        name: some text
-                                        email: some text
+                                        -
+                                            id: 41
+                                            name: some text
+                                            email: some text
+                                            TicketId: 52
+                                        -
+                                            id: 33
+                                            name: some text
+                                            email: some text
+                                            TicketId: 14
                     description: Returns a list of all customers
                 '500':
                     description: Server error
@@ -345,14 +380,26 @@ paths:
                         examples:
                             customers:
                                 value:
-                                    id: 61
-                                    name: Kala
-                                    email: Kala@gmail.com
+                                    id: 21
+                                    name: some text
+                                    email: some text
+                                    TicketId: 85
                 required: true
             tags:
                 - Customers
             responses:
                 '201':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Customer'
+                            examples:
+                                Customer:
+                                    value:
+                                        id: 59
+                                        name: some text
+                                        email: some text
+                                        TicketId: 87
                     description: Creates a new customer
                 '404':
                     description: Not found
@@ -378,10 +425,10 @@ paths:
                             examples:
                                 Full details of a given venue:
                                     value:
-                                        id: 1
-                                        name: D3
-                                        location: Telliskivi 62/2
-                                        capacity: 1500
+                                        id: 27
+                                        name: some text
+                                        location: some text
+                                        capacity: 76
                     description: Returns full details of a given id venue
                 '404':
                     content:
@@ -434,6 +481,17 @@ paths:
                     required: true
             responses:
                 '202':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Venue'
+                            examples:
+                                Venue:
+                                    value:
+                                        id: 29
+                                        name: some text
+                                        location: some text
+                                        capacity: 72
                     description: Venue updated succesfully
                 '404':
                     description: Not found
@@ -470,9 +528,10 @@ paths:
                             examples:
                                 Customer:
                                     value:
-                                        id: 8
+                                        id: 57
                                         name: some text
                                         email: some text
+                                        TicketId: 71
                     description: Returns full details of a given customer
                 '404':
                     description: Not found
@@ -489,11 +548,12 @@ paths:
                         examples:
                             customer:
                                 value:
-                                    id: 81
+                                    id: 70
                                     name: some text
                                     description: some text
-                                    startDate: 01.01.2023
-                                    endDate: 02.01.2023
+                                    startDate: some text
+                                    endDate: some text
+                                    VenueId: 24
                 required: true
             tags:
                 - Customers
@@ -506,9 +566,10 @@ paths:
                             examples:
                                 Customer:
                                     value:
-                                        id: 7
+                                        id: 92
                                         name: some text
                                         email: some text
+                                        TicketId: 30
                     description: Updates a given customer
                 '404':
                     description: Not found
@@ -549,12 +610,11 @@ paths:
                             examples:
                                 Ticket:
                                     value:
-                                        id: 59
+                                        id: 2
                                         name: some text
-                                        price: 29
+                                        price: 75
                                         purchaseDate: some text
-                                        EventId: 26
-                                        CustomerId: 71
+                                        EventId: 76
                     description: |
                         Returns full details of a given ticket
                 '404':
@@ -573,12 +633,11 @@ paths:
                         examples:
                             Ticket:
                                 value:
-                                    id: 86
+                                    id: 6
                                     name: some text
-                                    price: 63
+                                    price: 2
                                     purchaseDate: some text
-                                    EventId: 51
-                                    CustomerId: 37
+                                    EventId: 98
                 required: true
             tags:
                 - Tickets
@@ -596,12 +655,11 @@ paths:
                             examples:
                                 Ticket:
                                     value:
-                                        id: 56
+                                        id: 86
                                         name: some text
-                                        price: 73
+                                        price: 96
                                         purchaseDate: some text
-                                        EventId: 84
-                                        CustomerId: 40
+                                        EventId: 61
                     description: Updates a given ticket
                 '404':
                     description: Not found
@@ -671,12 +729,17 @@ components:
                     type: string
                 endDate:
                     type: string
+                VenueId:
+                    format: int32
+                    description: ''
+                    type: integer
             example:
                 id: 1
                 name: 'VOLT presents: Bou'
                 description: ''
                 startDate: '15.09'
                 endDate: '16.09'
+                VenueId: '1'
         Ticket:
             title: Root Type for Event
             description: ''
@@ -716,7 +779,12 @@ components:
                     type: string
                 email:
                     type: string
+                TicketId:
+                    format: int32
+                    description: ''
+                    type: integer
             example:
                 id: 8
                 name: Kalamees
                 email: kalamees@gmail.com
+                TicketId: '1'

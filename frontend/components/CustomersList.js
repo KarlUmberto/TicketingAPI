@@ -2,18 +2,19 @@ export default {
     /*html*/
     template: `
     <table id="customersTable" class="table table-striped table-bordered">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-            </tr>
-        </thead>
-        <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Tickets</th>
+        </tr>
             <tr v-for="customer in customers">
                 <td @click="getCustomer(customer.id)">{{ customer.name }}</td>
                 <td>{{ customer.email }}</td>
+                <td>
+                <span v-if="customer.Ticket">{{ customer.Ticket.purchaseDate }}</span>
+                <span v-else>No Ticket</span>
+                </td>
             </tr>
-        </tbody>
     </table>
     `,
     emits: ["showModal"],

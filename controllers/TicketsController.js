@@ -3,10 +3,6 @@ const tickets = db.tickets
 const { getBaseurl } = require("./helpers")
 
 
-const formatDate = (dateString) => {
-    return new Date(dateString).toISOString().split('T')[0];
-};
-
 // CREATE
 exports.createNew = async (req, res) => {
     if (!req.body.price || !req.body.purchaseDate || !req.body.EventId ) {

@@ -9,7 +9,7 @@ export default {
     <customers-list :key="update" @showModal="openModal"></customers-list>
     <customer-info-modal @customerUpdated="updateView" :customerInModal="customerInModal"></customer-info-modal>
     <new-object-modal id="newCustomerModal" @save="saveNewCustomer">
-        <customer-form v-model:name="customerInModal.name" v-model:email="customerInModal.email"></customer-form>
+        <customer-form v-model:name="customerInModal.name" v-model:email="customerInModal.email" v-model:ticketid="customerInModal.TicketId"></customer-form>
         <div class="alert alert-danger" role="alert" v-show="error">{{error}}</div>
     </new-object-modal>
     `,
@@ -22,7 +22,7 @@ export default {
     data() {
         return {
             update: 0,
-            customerInModal: { id: "", name: "", email: "" },
+            customerInModal: { id: "", name: "", email: "", TicketId: "" },
             newCustomerModal: {},
             error: ""
         }

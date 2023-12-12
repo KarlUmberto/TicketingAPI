@@ -11,8 +11,8 @@ export default {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <customer-form v-if="isEditing" v-model:id="modifiedCustomer.id" v-model:name="modifiedCustomer.name" v-model:email="modifiedCustomer.email" ></customer-form>
-                <customer-details v-else :customerInModal="customerInModal"></customer-details>
+                <customer-form v-if="isEditing" v-model:id="modifiedCustomer.id" v-model:name="modifiedCustomer.name" v-model:email="modifiedCustomer.email" v-model:ticketid="modifiedCustomer.TicketId" ></customer-form>
+                <customer-details v-else :customerInModal="customerInModal" v-model:ticketPurchaseDate="ticketPurchaseDate"></customer-details>
             </div>
             <div class="modal-footer">
                 <div class="container">
@@ -53,8 +53,22 @@ export default {
     data() {
         return {
             isEditing: false,
-            modifiedCustomer: {}
+            modifiedCustomer: {},
+            tickets: []
         }
+    },
+    computed: {
+        ticketPurchaseDate:{
+            get(){
+                if(this.customerInModal.TicketId == null) return "No Ticket";
+                const ticket = this.tickets.find(ticket => ticket.id == this.customerInModal.ticketId)
+                if(ticket) return ticket.purchaseDate
+                return "";
+            }
+        }
+    },
+    async created() {
+        this.tickets = await (await fetch(this.API_URL + "/tickets")).json()
     },
     methods: {
         startEditing() {

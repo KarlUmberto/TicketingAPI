@@ -22,6 +22,8 @@ db.events = require("./models/Event")(sequelize, Sequelize)
 db.customers = require("./models/Customer")(sequelize, Sequelize)
 db.tickets = require("./models/Ticket")(sequelize, Sequelize, db.events)
 
+db.tickets.hasMany(db.customers)
+db.customers.belongsTo(db.tickets)
 
 db.venues.hasMany(db.events)
 db.events.belongsTo(db.venues)
