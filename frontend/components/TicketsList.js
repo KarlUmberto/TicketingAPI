@@ -1,41 +1,35 @@
-// TicketsList.js
 export default {
     /*html*/
     template: `
-        <table id="ticketsTable" class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Purchase Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="ticket in tickets" :key="ticket.id">
-                    <td @click="getTicket(ticket.id)">{{ ticket.Event.name }}</td>
-                    <td>{{ ticket.price }}</td>
-                    <td>{{ ticket.purchaseDate }}</td>
-                </tr>
-            </tbody>
-        </table>
+    <table id="ticketsTable" class="table table-striped table-bordered">
+        <tr>
+            <th>Price</th>
+            <th>Purchase Date</th>
+            <th>Events</th>
+        </tr>
+        <tr v-for="ticket in tickets">
+            <td @click="getTicket(ticket.id)">{{ ticket.price }}</td>
+            <td>{{ ticket.purchaseDate }}</td>
+            <td>
+            <span v-if="ticket.Event">{{ ticket.Event.name }}</span>
+            <span v-else>No Genre</span>
+        </td>
+        </tr>
+    </table>
     `,
     emits: ["showModal"],
     data() {
         return {
             tickets: []
-        };
+        }
     },
     async created() {
-        try {
-            this.tickets = await (await fetch("http://localhost:8080/tickets", { method: 'GET', headers: {'Accept': 'application/json', 'Content-Type': 'application/json'} })).json();
-        } catch (error) {
-            console.error(error);
-        }
+        this.tickets = await (await fetch("http://localhost:8080/tickets")).json()
     },
     methods: {
-        getTicket(id) {
-            const ticketInModal = this.tickets.find(ticket => ticket.id === id);
-            this.$emit("showModal", ticketInModal);
+        getTicket: async function (id) {
+            const ticketInModal = await (await fetch(this.API_URL + "/tickets/" + id)).json()
+            this.$emit("showModal", ticketInModal)
         }
     }
-};
+}

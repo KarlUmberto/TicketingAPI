@@ -9,7 +9,7 @@ export default {
             </tr>
         </thead>
         <tbody>
-            <tr v-for="customer in customers" :key="customer.id">
+            <tr v-for="customer in customers">
                 <td @click="getCustomer(customer.id)">{{ customer.name }}</td>
                 <td>{{ customer.email }}</td>
             </tr>
@@ -23,24 +23,15 @@ export default {
         }
     },
     async created() {
-        try {
-            const response = await fetch("http://localhost:8080/customers");
-            this.customers = await response.json();
-        } catch (error) {
-            console.error(error);
-            // Handle the error appropriately, e.g., show an error message to the user.
-        }
+        this.customers = await (await fetch("http://localhost:8080/customers")).json()
     },
+    // async beforeUpdate() {
+    //     this.customers = await (await fetch("http://localhost:8080/customers")).json()
+    // },
     methods: {
-        async getCustomer(id) {
-            try {
-                const response = await fetch(`http://localhost:8080/customers/${id}`);
-                const customerInModal = await response.json();
-                this.$emit("showModal", customerInModal);
-            } catch (error) {
-                console.error(error);
-                // Handle the error appropriately, e.g., show an error message to the user.
-            }
+        getCustomer: async function (id) {
+            const customerInModal = await (await fetch(this.API_URL + "/customers/" + id)).json()
+            this.$emit("showModal", customerInModal)
         }
     }
-};
+}

@@ -22,6 +22,10 @@ db.events = require("./models/Event")(sequelize, Sequelize)
 db.customers = require("./models/Customer")(sequelize, Sequelize)
 db.tickets = require("./models/Ticket")(sequelize, Sequelize, db.events)
 
+
+db.venues.hasMany(db.events)
+db.events.belongsTo(db.venues)
+
 db.events.hasMany(db.tickets)
 db.tickets.belongsTo(db.events)
 
@@ -55,8 +59,8 @@ sync = async () => {
             defaults: {
                 name: "Project X",
                 description: "Halb pidu",
-                startDate: 10/20/2002,
-                endDate: 11/20/2002,
+                startDate: '20-10-2020',  // Ensure the correct date format
+                endDate: '20-11-2020',    // Ensure the correct date format
             }
         })
         // console.log("event created: ", createdP)

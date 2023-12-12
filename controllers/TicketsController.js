@@ -1,102 +1,67 @@
-// TicketsController.js
-const { db } = require("../db");
-const tickets = db.tickets;
-const { getBaseurl } = require("./helpers");
+const { db } = require("../db")
+const tickets = db.tickets
+const { getBaseurl } = require("./helpers")
+
+
+const formatDate = (dateString) => {
+    return new Date(dateString).toISOString().split('T')[0];
+};
 
 // CREATE
 exports.createNew = async (req, res) => {
-    if (!req.body.price || !req.body.purchaseDate || !req.body.EventId) {
-        return res.status(400).send({ error: "One or all required parameters are missing" });
+    if (!req.body.price || !req.body.purchaseDate || !req.body.EventId ) {
+        return res.status(400).send({ error: "One or all required parameters are missing" })
     }
-
-    try {
-        const createdTicket = await tickets.create({
-            price: req.body.price,
-            purchaseDate: req.body.purchaseDate,
-            EventId: req.body.EventId,
-        });
-
-        res.status(201)
-            .location(`${getBaseurl(req)}/tickets/${createdTicket.id}`)
-            .json(createdTicket);
-    } catch (error) {
-        console.error(error);
-        res.status(500).send({ error: "Internal Server Error" });
-    }
-};
+    const createdTicket = await tickets.create(req.body, {
+        fields: ["price", "purchaseDate", "EventId"]
+    })
+    res.status(201)
+        .location(`${getBaseurl(req)}/tickets/${createdTicket.id}`)
+        .json(createdTicket)
+}
 
 // READ
 exports.getAll = async (req, res) => {
-    try {
-        const result = await tickets.findAll({
-            include: [db.events]
-        });
-
-        // Format purchaseDate
-        const formattedTickets = result.map(ticket => {
-            return {
-                ...ticket.dataValues,
-                purchaseDate: ticket.purchaseDate.toLocaleDateString()
-            };
-        });
-
-        res.json(formattedTickets);
-    } catch (error) {
-        console.error(error);
-        res.status(500).send({ error: "Internal Server Error" });
-    }
-};
+    const result = await tickets.findAll({ 
+        include: [db.events]
+    })
+    res.json(result)
+}
 
 exports.getById = async (req, res) => {
-    try {
-        const foundTicket = await tickets.findByPk(req.params.id);
-
-        if (!foundTicket) {
-            return res.status(404).send({ error: "Ticket not found" });
-        }
-
-        res.json(foundTicket);
-    } catch (error) {
-        console.error(error);
-        res.status(500).send({ error: "Internal Server Error" });
+    const foundTicket = await tickets.findByPk(req.params.id,{
+        include: [db.events]
+    })
+    if (foundTicket === null) {
+        return res.status(404).send({ error: 'Ticket not found`'})
     }
-};
-
+    res.send(foundTicket)
+}
 // UPDATE
 exports.editById = async (req, res) => {
-    try {
-        const updateResult = await tickets.update({ ...req.body }, {
-            where: { id: req.params.id },
-            fields: ["price", "purchaseDate"]
-        });
-
-        if (updateResult[0] === 0) {
-            return res.status(404).send({ error: "Ticket not found" });
-        }
-
-        res.status(204)
-            .location(`${getBaseurl(req)}/tickets/${req.params.id}`)
-            .send();
-    } catch (error) {
-        console.error(error);
-        res.status(500).send({ error: "Internal Server Error" });
+    console.log("Update: ", req.params, req.body)
+    const updateResult = await tickets.update({ ...req.body}, {
+        where: {id:req.body.id},
+        fields: ["price", "purchaseDate", "EventId"]
+    })
+    if (updateResult[0] == 0) {
+        return res.status(404).send({ error: "Ticket not found" })
     }
-};
+
+    res.status(200)
+        .location(`${getBaseurl(req)}/tickets/${req.params.id}`)
+        .send()
+}
 
 // DELETE
 exports.deleteById = async (req, res) => {
-    try {
-        const deletedAmount = await tickets.destroy({
-            where: { id: req.params.id }
-        });
+    const deletedAmount = await tickets.destroy({
+        where: {id: req.params.id } 
+    })
 
-        if (deletedAmount === 0) {
-            return res.status(404).send({ error: "Ticket not found" });
-        }
-
-        res.status(204).send();
-    } catch (error) {
-        console.error(error);
-        res.status(500).send({ error: "Internal Server Error" });
+    if (deletedAmount === 0) {
+        return res.status(404).send({ error: "Ticket not found"})
     }
-};
+
+    res.status(204).send()
+}

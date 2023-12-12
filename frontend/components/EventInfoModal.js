@@ -1,4 +1,6 @@
 import confirmationModal from "./ConfirmationModal.js"
+import eventForm from "./event/EventForm.js"
+import eventDetails from "./event/EventDetails.js"
 export default {
     /*html*/
     template: `
@@ -9,32 +11,8 @@ export default {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <table class="table table-striped">
-                    <tr>
-                        <th>Id</th>
-                        <td>{{eventInModal.id}}</td>
-                    </tr>
-                    <tr>
-                        <th>Name</th>
-                        <td v-if="isEditing"><input v-model="modifiedEvent.name"></td>
-                        <td v-else>{{eventInModal.name}}</td>
-                    </tr>
-                    <tr>
-                        <th>Description</th>
-                        <td v-if="isEditing"><input v-model="modifiedEvent.description"></td>
-                        <td v-else>{{eventInModal.description}}</td>
-                    </tr>
-                    <tr>
-                        <th>Start Date</th>
-                        <td v-if="isEditing"><input v-model="modifiedEvent.startDate"></td>
-                        <td v-else>{{eventInModal.startDate}}</td>
-                    </tr>
-                    <tr>
-                        <th>End Date</th>
-                        <td v-if="isEditing"><input v-model="modifiedEvent.endDate"></td>
-                        <td v-else>{{eventInModal.endDate}}</td>
-                    </tr>
-                </table>
+                <event-form v-if="isEditing"  v-model:id="modifiedEvent.id" v-model:name="modifiedEvent.name" v-model:description="modifiedEvent.description" v-model:startDate="modifiedEvent.startDate" v-model:endDate="modifiedEvent.endDate" v-model:venueid="modifiedEvent.VenueId"></event-form>
+                <event-details v-else v-model:eventInModal="eventInModal" v-model:venueName="venueName"></event-details>
             </div>
             <div class="modal-footer">
                 <div class="container">
@@ -61,30 +39,55 @@ export default {
         </div>
     </div>
 </div>
-<confirmation-modal :target="'#eventInfoModal'" @confirmed="deleteEvent"></confirmation-modal>
+<confirmation-modal :target="'#eventInfoModal'" @confirmed="deleteEvent" @canceldelete="cancelEditing"></confirmation-modal>
     `,
     components: {
-        confirmationModal
+        confirmationModal,
+        eventForm,
+        eventDetails
     },
-    emits: ["eventUpdated"],
+    emits:["eventUpdated"],
     props: {
         eventInModal: {}
     },
     data() {
-        return {
+        return{
             isEditing: false,
-            modifiedEvent: {}
+            modifiedEvent:{},
+            venues: []
         }
     },
+
+    computed: {
+        formattedDate: {
+            get() {
+              return this.modifiedEvent.startDate ? new Date(this.modifiedEvent.startDate).toISOString().split('T')[0] : null;
+            },
+            set(value) {
+              this.modifiedDate.startDate = value;
+            }
+          },
+        venueName:{
+            get(){
+                if(this.eventInModal.VenueId == null) return "No Venue";
+                const venue = this.venues.find(venue => venue.id == this.eventInModal.VenueId)
+                if(venue) return venue.name
+                return "";
+            }
+        }
+    },
+    async created() {
+        this.venues = await (await fetch(this.API_URL + "/venues")).json()
+    },
     methods: {
-        startEditing() {
-            this.modifiedEvent = { ...this.eventInModal }
+        startEditing(){
+            this.modifiedEvent = {...this.eventInModal}
             this.isEditing = true
         },
-        cancelEditing() {
+        cancelEditing(){
             this.isEditing = false
         },
-        async saveModifiedEvent() {
+        async saveModifiedEvent(){
             console.log("Saving:", this.modifiedEvent)
             const rawResponse = await fetch(this.API_URL + "/events/" + this.modifiedEvent.id, {
                 method: 'PUT',
@@ -98,8 +101,13 @@ export default {
             this.$emit("eventUpdated", this.modifiedEvent)
             this.isEditing = false
         },
-        deleteEvent() {
-            console.log("DELETE confirmed");
+        deleteEvent(){
+            console.log("Deleting:", this.eventInModal);
+            fetch(this.API_URL + "/events/" + this.eventInModal.id, {
+                method: 'DELETE'
+            });
+            this.$emit("eventUpdated", {})
+            this.isEditing = false
         }
     }
 }

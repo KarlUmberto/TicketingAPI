@@ -1,4 +1,4 @@
-module.exports = (dbConnection, Sequelize) => {
+module.exports = (dbConnection, Sequelize, Venue) => {
     const Event = dbConnection.define("Event", {
         id: {
             type: Sequelize.INTEGER,
@@ -20,6 +20,14 @@ module.exports = (dbConnection, Sequelize) => {
         endDate: {
             type: Sequelize.DATE,
             allowNull: false
+        },
+        VenueId: {
+            type: Sequelize.INTEGER,
+            allowNull: false,
+            references: {
+                model: Venue,
+                key: "id"
+            }
         }
 
     })

@@ -1,4 +1,6 @@
 import confirmationModal from "./ConfirmationModal.js"
+import venueForm from "./venue/VenueForm.js"
+import venueDetails from "./venue/VenueDetails.js"
 export default {
     /*html*/
     template: `
@@ -9,27 +11,8 @@ export default {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <table class="table table-striped">
-                    <tr>
-                        <th>Id</th>
-                        <td>{{venueInModal.id}}</td>
-                    </tr>
-                    <tr>
-                        <th>Name</th>
-                        <td v-if="isEditing"><input v-model="modifiedVenue.name"></td>
-                        <td v-else>{{venueInModal.name}}</td>
-                    </tr>
-                    <tr>
-                        <th>Location</th>
-                        <td v-if="isEditing"><input v-model="modifiedVenue.location"></td>
-                        <td v-else>{{venueInModal.location}}</td>
-                    </tr>
-                    <tr>
-                        <th>Capacity</th>
-                        <td v-if="isEditing"><input v-model="modifiedVenue.capacity"></td>
-                        <td v-else>{{venueInModal.capacity}}</td>
-                    </tr>
-                </table>
+                <venue-form v-if="isEditing" v-model:id="modifiedVenue.id" v-model:name="modifiedVenue.name" v-model:location="modifiedVenue.location" v-model:capacity="modifiedVenue.capacity" ></venue-form>
+                <venue-details v-else :venueInModal="venueInModal"></venue-details>
             </div>
             <div class="modal-footer">
                 <div class="container">
@@ -59,7 +42,9 @@ export default {
 <confirmation-modal :target="'#venueInfoModal'" @confirmed="deleteVenue"></confirmation-modal>
     `,
     components: {
-        confirmationModal
+        confirmationModal,
+        venueForm,
+        venueDetails
     },
     emits: ["venueUpdated"],
     props: {
@@ -94,7 +79,12 @@ export default {
             this.isEditing = false
         },
         deleteVenue() {
-            console.log("DELETE confirmed");
+            console.log("Deleting:", this.venueInModal);
+            fetch(this.API_URL + "/venues/" + this.venueInModal.id, {
+                method: 'DELETE'
+            });
+            this.$emit("venueUpdated", {})
+            this.isEditing = false
         }
     }
 }

@@ -27,6 +27,9 @@ export default {
     async created() {
         this.venues = await (await fetch("http://localhost:8080/venues")).json()
     },
+    // async beforeUpdate() {
+    //     this.venues = await (await fetch("http://localhost:8080/venues")).json()
+    // },
     methods: {
         getVenue: async function (id) {
             const venueInModal = await (await fetch(this.API_URL + "/venues/" + id)).json()
