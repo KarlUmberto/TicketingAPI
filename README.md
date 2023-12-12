@@ -8,9 +8,8 @@ Event organizers find it difficult to manage ticketing because it involves a hug
 Solution:
 Our API makes ticketing fast, easy and accurate. Using our API, you can:
 
-    Event management: Create and customize events, add details, schedule and ticket types.
+    Event management: Create and customize events, add details, schedule.
     Venue management: Add and manage venues, their size and location.
-    Customer management: Store customer data securely, monitor their purchase history and behavior.
     Ticket creation and sale: Create ticket types, limit sales and sell tickets on online platforms.
 
 Summary:
