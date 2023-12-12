@@ -1,5 +1,6 @@
 const { db } = require("../db")
 const events = db.events
+const venues = db.venues
 const { getBaseurl } = require("./helpers")
 
 
@@ -10,7 +11,16 @@ const formatDate = (dateString) => {
 // CREATE
 exports.createNew = async (req, res) => {
     if (!req.body.name || !req.body.description || !req.body.startDate || !req.body.endDate || !req.body.VenueId ) {
-        return res.status(400).send({ error: "One or all required parameters are missing" })
+        return res.status(404).send({ error: "One or all required parameters are missing" })
+    }
+    const venueExists = await venues.findOne({
+        where: {
+            id: req.body.VenueId,
+        },
+    });
+
+    if (!venueExists) {
+        return res.status(404).send({ error: "Venue with the specified VenueId does not exist" });
     }
     const createdEvent = await events.create(req.body, {
         fields: ["name", "description", "startDate", "endDate", "VenueId"]

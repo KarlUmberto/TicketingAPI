@@ -1,5 +1,6 @@
 const { db } = require("../db")
 const tickets = db.tickets
+const events = db.events
 const { getBaseurl } = require("./helpers")
 
 
@@ -7,6 +8,15 @@ const { getBaseurl } = require("./helpers")
 exports.createNew = async (req, res) => {
     if (!req.body.price || !req.body.purchaseDate || !req.body.EventId ) {
         return res.status(400).send({ error: "One or all required parameters are missing" })
+    }
+    const eventExists = await events.findOne({
+        where: {
+            id: req.body.EventId,
+        },
+    });
+
+    if (!eventExists) {
+        return res.status(404).send({ error: "Event with the specified EventId does not exist" });
     }
     const createdTicket = await tickets.create(req.body, {
         fields: ["price", "purchaseDate", "EventId"]

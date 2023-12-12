@@ -15,7 +15,7 @@ module.exports = (dbConnection, Sequelize, Event) => {
         },
         EventId: {
             type: Sequelize.INTEGER,
-            allowNull: false,
+            allowNull: true,
             references: {
                 model: Event,
                 key: "id"

@@ -161,8 +161,21 @@ paths:
                                         endDate: some text
                                         VenueId: 73
                     description: Creates a new event
-                '400':
-                    description: Bad request
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Event'
+                            examples:
+                                Event:
+                                    value:
+                                        id: 25
+                                        name: some text
+                                        description: some text
+                                        startDate: some text
+                                        endDate: some text
+                                        VenueId: 73
+                    description: Not found
                 '500':
                     description: Server error
             summary: Create an event
@@ -183,17 +196,15 @@ paths:
                                 List of tickets:
                                     value:
                                         -
-                                            id: 8
-                                            name: some text
-                                            price: 9
+                                            id: 68
+                                            price: 10
                                             purchaseDate: some text
-                                            EventId: 36
+                                            EventId: 93
                                         -
-                                            id: 23
-                                            name: some text
-                                            price: 74
+                                            id: 34
+                                            price: 95
                                             purchaseDate: some text
-                                            EventId: 34
+                                            EventId: 27
                     description: |
                         Returns a list of all ticekts
                 '500':
@@ -220,11 +231,10 @@ paths:
                         examples:
                             Ticket:
                                 value:
-                                    id: 74
-                                    name: some text
-                                    price: 22
+                                    id: 98
+                                    price: 97
                                     purchaseDate: some text
-                                    EventId: 33
+                                    EventId: 94
                 required: true
             tags:
                 - Tickets
@@ -237,11 +247,10 @@ paths:
                             examples:
                                 Ticket:
                                     value:
-                                        id: 5
-                                        name: some text
-                                        price: 55
+                                        id: 40
+                                        price: 39
                                         purchaseDate: some text
-                                        EventId: 68
+                                        EventId: 75
                     description: Creates a new ticket
                 '404':
                     description: Not found
@@ -610,11 +619,10 @@ paths:
                             examples:
                                 Ticket:
                                     value:
-                                        id: 2
-                                        name: some text
-                                        price: 75
+                                        id: 75
+                                        price: 50
                                         purchaseDate: some text
-                                        EventId: 76
+                                        EventId: 81
                     description: |
                         Returns full details of a given ticket
                 '404':
@@ -633,11 +641,10 @@ paths:
                         examples:
                             Ticket:
                                 value:
-                                    id: 6
-                                    name: some text
-                                    price: 2
+                                    id: 97
+                                    price: 1
                                     purchaseDate: some text
-                                    EventId: 98
+                                    EventId: 72
                 required: true
             tags:
                 - Tickets
@@ -655,11 +662,10 @@ paths:
                             examples:
                                 Ticket:
                                     value:
-                                        id: 86
-                                        name: some text
-                                        price: 96
+                                        id: 77
+                                        price: 47
                                         purchaseDate: some text
-                                        EventId: 61
+                                        EventId: 35
                     description: Updates a given ticket
                 '404':
                     description: Not found
@@ -749,8 +755,6 @@ components:
                 id:
                     format: int32
                     type: integer
-                name:
-                    type: string
                 price:
                     format: int32
                     type: integer
@@ -762,7 +766,6 @@ components:
             example: |-
                 {
                     "id": 54,
-                    "name": "Kalamees",
                     "price": 87,
                     "purchaseDate": "10.10.2020",
                     "EventId": 53,

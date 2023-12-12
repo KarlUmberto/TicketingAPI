@@ -1,11 +1,21 @@
 const { db } = require("../db");
 const customers = db.customers;
+const tickets = db.tickets;
 const { getBaseurl } = require("./helpers");
 
 // CREATE
 exports.createNew = async (req, res) => {
     if (!req.body.name || !req.body.email || !req.body.TicketId ) {
         return res.status(400).send({ error: "One or all required parameters are missing" });
+    }
+    const ticketExists = await tickets.findOne({
+        where: {
+            id: req.body.TicketId,
+        },
+    });
+
+    if (!ticketExists) {
+        return res.status(404).send({ error: "Ticket with the specified TicketId does not exist" });
     }
 
     const createdCustomer = await customers.create(req.body, {

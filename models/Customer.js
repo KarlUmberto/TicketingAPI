@@ -15,7 +15,7 @@ module.exports = (dbConnection, Sequelize, Ticket) => {
         },
         TicketId: {
             type: Sequelize.INTEGER,
-            allowNull: false,
+            allowNull: true,
             references: {
                 model: Ticket,
                 key: "id"

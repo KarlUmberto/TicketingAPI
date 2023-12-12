@@ -23,7 +23,7 @@ module.exports = (dbConnection, Sequelize, Venue) => {
         },
         VenueId: {
             type: Sequelize.INTEGER,
-            allowNull: false,
+            allowNull: true,
             references: {
                 model: Venue,
                 key: "id"
